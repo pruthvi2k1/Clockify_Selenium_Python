@@ -1,24 +1,26 @@
 from selenium import webdriver
-import re
+from selenium.webdriver.common.action_chains import ActionChains
+from Page_Objects.Landing_Page import Landing_Page
+from Page_Objects.Time_Tracker_Page import *
 
-class Login_Invalid():
-    def Login_Invalid(self):
-        URL = "https://clockify.me/login"
-        driver = webdriver.Chrome(executable_path="C:\\bin\\chromedriver.exe")
-        driver.get(URL)
-        driver.maximize_window()
-        driver.implicitly_wait(5)
-        Email_Text_Field = driver.find_element_by_id("email")
-        Email_Text_Field.send_keys("InvalidEmail@InvalidEmail.com")
-        Password_Text_Field = driver.find_element_by_id("password")
-        Password_Text_Field.send_keys("InvalidPassword")
-        Login_Button = driver.find_element_by_class_name("access__panel__content__buttons--login")
-        Login_Button.click()
-        driver.find_element_by_xpath("/html/body/app-root/login/login-clockify/div/div[1]/div/div[2]/form/div[2]/div[2]/span")
+#Creating Webdriver Object with needed URL
 
+URL = "https://clockify.me/login"
+driver = webdriver.Chrome(executable_path="C:\\bin\\chromedriver.exe")
+driver.get(URL)
+driver.maximize_window()
 
+#Valid Login Credentials
+username="invalidusername@invalidusername.com"
+password="invalidpassword"
 
+# Creating object of Landing_Page and calling methods inside it by passing Webdriver object.
+Landing_Page_Object=Landing_Page()
+Landing_Page_Object.Login(driver, username, password)
 
+# Creating object of Time_Tracker_Page and calling methods inside it by passing the Webdriver object
+Time_Tracker_Page_Object=Time_Tracker_Page()
+Time_Tracker_Page_Object.Check_If_Login_Succeeded_Or_Failed(driver)
 
-Login_Invalid=Login_Invalid()
-Login_Invalid.Login_Invalid()
+#Quitting the browser
+driver.quit()
